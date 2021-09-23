@@ -1,5 +1,7 @@
 package com.ellen.datastruct.List;
 
+import java.util.ArrayList;
+
 class Main{
     public static void main(String[] args) {
         LinkedList linkedList = new LinkedList();
@@ -14,10 +16,14 @@ class Main{
         System.out.println(linkedList.getLen());
         System.out.println(linkedList.print());
         //ArrayLIst 源码阅读
+        Integer i;
 
         java.util.LinkedList list;
 
+        ArrayList dd;
 
+        int a[] = new int[10];
+        System.out.println(a.length);
 
 
     }

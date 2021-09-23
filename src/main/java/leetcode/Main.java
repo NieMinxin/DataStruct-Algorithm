@@ -24,5 +24,15 @@ public class Main {
     }
 
 
+    public static void main(String[] args) {
+        TreeMap map  = new TreeMap(new StudentComparator());
+        map.put(new Student(10),"1");
+        map.put(new Student(8),"2");
+        map.put(new Student(20),"3");
+        System.out.println(map.comparator());
+        System.out.println(map);
+
+    }
+
 
 }

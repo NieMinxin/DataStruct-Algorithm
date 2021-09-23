@@ -1,6 +1,8 @@
 package leetcode;
 
 
+import org.junit.Test;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedList;
@@ -12,5 +14,16 @@ public class Source {
 
         int array[][] = new int[1][2];
 
+    }
+
+    @Test
+    public void fun() {
+        int a=10;
+        int b =20;
+        a = a^b;
+        b = a^b;
+        a = a^b;
+        System.out.println(a);
+        System.out.println(b);
     }
 }

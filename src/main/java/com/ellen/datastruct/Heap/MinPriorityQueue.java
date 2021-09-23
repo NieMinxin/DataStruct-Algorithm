@@ -8,7 +8,7 @@ public class MinPriorityQueue {
     private  int capacity;
     private  int size;
 
-    MinPriorityQueue(int capacity) {
+    public MinPriorityQueue(int capacity) {
         this.capacity = capacity;
         this.size = 0;
         this.heap = new int[capacity + 1];
@@ -44,6 +44,10 @@ public class MinPriorityQueue {
             System.out.println(String.format("heap[%d]: %d", i,heap[i]));
         }
 
+    }
+
+    public void clear() {
+        size=0;
     }
 
 
@@ -95,13 +99,11 @@ public class MinPriorityQueue {
                     minIndex = k;
                 }
             }
-
             int tmp =  heap[k];
             heap[k] = heap[minIndex];
             heap[minIndex] = tmp;
             k = minIndex;
         }
-
     }
     /*
     * **当删除一个元素的时候，要在根节点建立一个空穴。

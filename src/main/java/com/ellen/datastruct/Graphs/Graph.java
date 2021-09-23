@@ -1,8 +1,6 @@
 package com.ellen.datastruct.Graphs;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 public class Graph<E extends Comparable<E>> {
 
@@ -134,8 +132,9 @@ public class Graph<E extends Comparable<E>> {
     }
 
 
-    public boolean isConnected(ArrayList<Node<E>> visited,Node<E> node){
 
+
+    public boolean isConnected(ArrayList<Node<E>> visited,Node<E> node){
         return visited.contains(node);
     }
 
@@ -149,7 +148,6 @@ public class Graph<E extends Comparable<E>> {
         graphChars.addEdge('b', 'c');
         graphChars.addEdge('c', 'd');
         graphChars.addEdge('d', 'a');
-
 
 
         Graph<Integer> graphInts = new Graph<>();
@@ -175,5 +173,7 @@ public class Graph<E extends Comparable<E>> {
         System.out.println("Amount of different char-graphs: " + graphChars.countGraphs());
         System.out.println("Amount of different int-graphs: " + graphInts.countGraphs());
     }
+
+
 
 }

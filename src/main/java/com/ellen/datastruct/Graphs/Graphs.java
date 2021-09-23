@@ -1,5 +1,7 @@
 package com.ellen.datastruct.Graphs;
 
+import org.junit.Test;
+
 import java.util.*;
 
 public class Graphs<E extends Comparable<E>> {
@@ -20,11 +22,23 @@ public class Graphs<E extends Comparable<E>> {
 
     private static class Vertex<E extends Comparable<E>> {
         E data;
+        int dist;
+        Vertex path;
+        int indgree;
+        boolean know;
         ArrayList<Vertex<E>> adjacentVerticies;
 
         public Vertex(E data) {
             adjacentVerticies = new ArrayList<>();
+            indgree =0;
             this.data = data;
+        }
+
+        @Override
+        public String toString() {
+            return "Vertex{" +
+                    "data=" + data +
+                    '}';
         }
 
         public boolean addAdjacentVertex(Vertex to) {
@@ -33,6 +47,7 @@ public class Graphs<E extends Comparable<E>> {
                     return false; // the edge already exists
                 }
             }
+            to.indgree++;
             return adjacentVerticies.add(to); // this will return true;
         }
 
@@ -42,7 +57,9 @@ public class Graphs<E extends Comparable<E>> {
             // equals method that ArrayList.remove(Object o) uses
             for (int i = 0; i < adjacentVerticies.size(); i++) {
                 if (adjacentVerticies.get(i).data.compareTo(to) == 0) {
+                    adjacentVerticies.get(i).indgree--;
                     adjacentVerticies.remove(i);
+
                     return true;
                 }
             }
@@ -116,9 +133,47 @@ public class Graphs<E extends Comparable<E>> {
     }
 
 
+    private void   UnWeightedPath(Vertex source){
+        ArrayList<Vertex> vertexes  = new ArrayList<>();
+        ArrayDeque<Vertex> queue = new ArrayDeque<>();
+        //initial
+        for (Vertex v: getVertexes()
+             ) {
+            v.dist = Integer.MAX_VALUE;
+            v.know = false;
+        }
+        source.dist = 0;
+        queue.offer(source);
+        source.know=true;
+
+        while (!queue.isEmpty()){
+            Vertex<E> tmp = queue.poll();
+
+            for (Vertex<E> adj: tmp.adjacentVerticies
+                 ) {
+                if(!adj.know && adj.dist==Integer.MAX_VALUE){
+
+                    adj.dist = tmp.dist+1;
+                    adj.path = tmp;
+                    queue.offer(adj);
+                    adj.know=true;
+                }
+            }
+        }
+
+    }
+
+
+    public void printUnweightedPath(Vertex<E> s){
+        UnWeightedPath(s);
+        for (Vertex<E> v:getVertexes()
+             ) {
+            System.out.println(String.format("path: %d\t", v.dist));
+        }
+
+    }
 
     public void dfs(Vertex<E> vertex,boolean[] visited){
-
         visited[vertexes.indexOf(vertex)] = true;
         result_dfs.add(vertex);
         Iterator<Vertex<E>> iterator = vertex.adjacentVerticies.iterator();
@@ -133,14 +188,11 @@ public class Graphs<E extends Comparable<E>> {
 
 
     public void BFS(Vertex<E> vertex,boolean[] visited){
-
         queue.offer(vertex);//把根节点放入队列中
         visited[vertexes.indexOf(vertex)] = true;
         while (!queue.isEmpty()){
             Vertex<E> tmp = queue.poll();
             result_bfs.add(tmp);//出队
-
-
             for (Vertex<E> v : tmp.adjacentVerticies
                     ) {
                 if(!visited[getVertexes().indexOf(v)]){
@@ -150,6 +202,42 @@ public class Graphs<E extends Comparable<E>> {
                 }
             }
         }
+    }
+
+
+    //拓扑排序
+    public List<Vertex> topologicalSort(){
+        List<Vertex> topoRes = new ArrayList<>();
+        int len = vertexes.size();
+        int [] degree = new int[len];
+        for (int i = 0; i<len; i++) {
+            degree[i]=vertexes.get(i).indgree;
+
+        }
+
+        //队列
+        ArrayDeque<Vertex<E>> deque = new ArrayDeque();
+
+        for (int i = 0; i < len; i++) {
+            if(degree[i]==0)
+                deque.offer(vertexes.get(0));
+        }
+
+        //广度优先搜索 实现拓扑排序
+        while (!deque.isEmpty()){
+            Vertex<E>  cur = deque.poll();
+            topoRes.add(cur);
+
+            for (Vertex<E> v:cur.adjacentVerticies
+                 ) {
+                v.indgree--;//入度全部减1
+                if(v.indgree==0){
+                    deque.offer(v);
+                }
+            }
+        }
+
+        return topoRes;
     }
 
 
@@ -185,6 +273,7 @@ public class Graphs<E extends Comparable<E>> {
         graph.addEdge(3,5);
         graph.addEdge(3,6);
         graph.addEdge(6,7);
+        graph.addEdge(6,5);
         graph.addEdge(3,7);
         graph.addEdge(5,4);
         graph.addEdge(7,4);
@@ -200,6 +289,13 @@ public class Graphs<E extends Comparable<E>> {
 
         graph.BFS((Vertex) graph.getVertexes().get(0),new boolean[graph.getSize()]);
         graph.PrintBFS();
+
+
+        graph.printUnweightedPath((Vertex) graph.getVertexes().get(0));
+
+
+        System.out.println(graph.topologicalSort());
+
 
     }
 }

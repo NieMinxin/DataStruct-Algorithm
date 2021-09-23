@@ -5,7 +5,6 @@ import java.util.StringJoiner;
 public class LinkedList {
     //Node 节点
     class Node {
-
         int value;
         Node next;
         Node() {
@@ -18,10 +17,8 @@ public class LinkedList {
             this.next = next;
         }
     }
-
     private Node head;
     private  int len;
-
     public int getLen() {
         return len;
     }
@@ -31,6 +28,7 @@ public class LinkedList {
         len=0;
     }
 
+    //头插
     public void insertHead(int value) {
         insertIndex(value,0);
     }
@@ -114,7 +112,7 @@ public class LinkedList {
         }
         Node des = cur.next;
         cur.next = cur.next.next;//核心
-        des=null; //GC
+        des=null; //help GC
 
         len--;
 
