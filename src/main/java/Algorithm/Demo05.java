@@ -45,4 +45,13 @@ public class Demo05 {
         return new String(array);
     }
 
+    public static void main(String[] args) {
+        LinkedList list = new LinkedList();
+        list.add(1);
+        list.add(2);
+        list.add(1,12);
+        System.out.println(list);
+
+    }
+
 }

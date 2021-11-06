@@ -3,7 +3,7 @@ package com.ellen.datastruct.Tree;
 import com.ellen.datastruct.Heap.MinPriorityQueue;
 
 public class Huffman {
-
+    private  int len;//存储编码
     //节点
     private class HuffmanNode implements Cloneable,Comparable<HuffmanNode>{
 
@@ -40,6 +40,7 @@ public class Huffman {
     private HuffmanNode root;
 
     public Huffman(int []array){
+        len = array.length;
         HuffmanNode parent = null;
         MinPriorityQueue queue = new MinPriorityQueue(array.length);
         //将数据添加到最小堆中
@@ -72,8 +73,9 @@ public class Huffman {
         }
     }
 
-
-
+    public int heightOfNode(HuffmanNode node){
+        return 0;
+    }
 
 
 

@@ -55,6 +55,29 @@ public class Sorter {
         return  array;
     }
 
+    public int[]  swapWb(int array[]){
+        int j = array.length-1;
+        for (int i = 0; i < array.length; i++) {
+            //1 代表黑色 ，0 代表白色
+            if (array[i]==1){
+                if(i>=array.length/2){
+                    break;
+                }
+                int tmp = array[i];
+                array[i] = array[j];
+                array[j] = tmp;
+                if(j>0){
+                    j-=2;
+                }else {
+                    break;
+                }
+            }else {
+                continue;
+            }
+        }
+        return array;
+    }
+
 
     //快速排序
     public int[] quickSort(int [] array,int left,int right) {

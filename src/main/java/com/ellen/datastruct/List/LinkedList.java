@@ -1,20 +1,34 @@
 package com.ellen.datastruct.List;
 
-import java.util.StringJoiner;
+
+
+import java.util.Scanner;
+
 
 public class LinkedList {
     //Node 节点
-    class Node {
+    static class Node {
         int value;
+        int score;
         Node next;
         Node() {
         }
-        Node(int value) {
-            this(value, null);
+        public Node(int id,int score){
+            this(id,score,null);
         }
-        Node(int value, Node next) {
-            this.value = value;
+
+        public Node(int id, int score, Node next) {
+            this.value = id;
+            this.score = score;
             this.next = next;
+        }
+
+        @Override
+        public String toString() {
+            return "[" +
+                    "num=" + value + "," +
+                    "score="+ score +
+                    ']';
         }
     }
     private Node head;
@@ -28,18 +42,22 @@ public class LinkedList {
         len=0;
     }
 
-    //头插
-    public void insertHead(int value) {
-        insertIndex(value,0);
-    }
-    //在为末尾插入
-    public void insert(int value) {
-        insertIndex(value,len);
+    public void insertNode(Node t,int index) {
+        insertIndex(t.value,t.score,index);
     }
 
-    public void insertIndex(int value,int index) {
+    //头插
+    public void insertHead(int value,int score) {
+        insertIndex(value,score,0);
+    }
+    //在为末尾插入
+    public void insert(int value,int score) {
+        insertIndex(value, score,len);
+    }
+
+    public void insertIndex(int value,int score,int index) {
         //头节点 index 为 1
-        Node node = new Node(value);
+        Node node = new Node(value,score);
 
         if(head==null){
             head=node;
@@ -78,12 +96,12 @@ public class LinkedList {
         return len==0;
     }
 
-    public int getIndex(int index) {
+    public Node getIndex(int index) {
         Node node = head;
         for (int i = 0; i < index; i++) {
             node= node.next;
         }
-        return node.value;
+        return node;
     }
 
     public void clear() {
@@ -125,6 +143,28 @@ public class LinkedList {
 
     public  void deleteHead(){
         deleteIndex(0);
+    }
+
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        LinkedList list = new LinkedList();
+
+        String line = scanner.nextLine();
+        String arr[]  = line.split(" ");
+
+        for (int i = 0; i <arr.length ; i++) {
+            String tmp[] = arr[i].split(",");
+            list.insert(Integer.parseInt(tmp[0]),Integer.parseInt(tmp[1]));
+        }
+
+
+
+       for (int i = 0; i < 3; i++) {
+            System.out.println(list.getIndex(i));
+        }
+
+
     }
 
 }

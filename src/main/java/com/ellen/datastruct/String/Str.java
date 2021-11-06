@@ -2,7 +2,7 @@ package com.ellen.datastruct.String;
 
 import java.util.Arrays;
 
-public class String_ {
+public class Str {
     //不可变
     private final char value[];
 
@@ -12,7 +12,6 @@ public class String_ {
         int h = hash;
         if (h == 0 && value.length > 0) {
             char val[] = value;
-
             for (int i = 0; i < value.length; i++) {
                 h = 31 * h + val[i];
             }
@@ -21,12 +20,12 @@ public class String_ {
         return h;
     }
 
-    public String_(char[] value) {
+    public Str(char[] value) {
         this.value = Arrays.copyOf(value, value.length);
     }
 
 
-    public String_(char[] value,int beginIndex,int len) throws Exception {
+    public Str(char[] value, int beginIndex, int len) throws Exception {
         if(beginIndex<0){
             throw  new Exception("字符串索引必须从0开始");
         }
@@ -72,7 +71,7 @@ public class String_ {
     }
 
     //查找子串 ，naive 算法
-    public int indexOf(String_ s){
+    public int indexOf(Str s){
         return indexOf(value,0, value.length, s.value,0,s.value.length,0);
     }
     /*
@@ -131,7 +130,7 @@ public class String_ {
 
 
 
-    public String_ subString(int beginIndex) throws Exception {
+    public Str subString(int beginIndex) throws Exception {
         if(beginIndex<0){
             throw  new Exception("index不能小于零");
         }
@@ -139,11 +138,11 @@ public class String_ {
         if(subLen> value.length){
             throw new Exception("error");
         }
-        return (beginIndex==0) ? this : new String_(value,beginIndex,subLen);
+        return (beginIndex==0) ? this : new Str(value,beginIndex,subLen);
 
     }
 
-    public String_ subString(int beginIndex,int endIndex) throws Exception {
+    public Str subString(int beginIndex, int endIndex) throws Exception {
         if(beginIndex<0){
             throw  new Exception("index不能小于零");
         }
@@ -153,7 +152,7 @@ public class String_ {
 
         int subLen = endIndex-beginIndex;
 
-        return (beginIndex==0 && subLen== value.length) ? this : new String_(value,beginIndex,subLen);
+        return (beginIndex==0 && subLen== value.length) ? this : new Str(value,beginIndex,subLen);
     }
 
 
@@ -207,28 +206,88 @@ public class String_ {
 
     }
 
+    private int[] getNext(String str){
+        int len = str.length();
+        int next[] = new int[len];
+        next[0] = -1;
+        next[1] = 0;
+        int k = 0;
+        int j = 1;
+        while (j<len-1){
+            if(str.charAt(j)==str.charAt(k)){
+                next[j+1] = k + 1;
+                j++;
+                k++;
+            }else if(k==0){
+                next[j+1] = 0;
+                j++;
+            }else {
+                k = next[k];
+            }
+        }
+        return next;
+    }
 
     public  boolean contain(char c){
         return indexOf(c)==-1;
     }
 
 
+    public int indexOfKmp(String src,String tar){
+        int i = 0;
+        int j = 0;
+        int sLen = src.length();
+        int tLen = tar.length();
+        int next[] = getNext(tar);
+        while (i < sLen && j < tLen)
+        {
+            //①如果j = -1，或者当前字符匹配成功（即S[i] == P[j]），都令i++，j++
+            if (j == -1 || src.charAt(i) == tar.charAt(j))
+            {
+                i++;
+                j++;
+            }
+            else
+            {
+                //②如果j != -1，且当前字符匹配失败（即S[i] != P[j]），则令 i 不变，j = next[j]
+                //next[j]即为j所对应的next值
+                j = next[j];
+            }
+        }
+        if (j == tLen)
+            return i - j;
+        else
+            return -1;
+    }
 
 
 
+    public int indexOfBf(String src,String sub,int start){
+        int srcL = src.length();
+        int subL = sub.length();
+        int i = start,j=0;
+        while (i<srcL && j<subL){
+            if(src.charAt(i)==sub.charAt(j)){
+                i++;j++;
+            }
+            else {
+                i= i-j+1;
+                j=0;
+            }
+        }
+        if(j>=subL){
+            return i-subL;
+        }else {
+            return -1;
+        }
+    }
 
 
 
 
     public static void main(String[] args) throws Exception {
-        char[] a = new char[]{'a','b','c'};
-        String_ string_ = new String_(a);
-        char []b = new char[]{'b','c'};
-        System.out.println(string_);
-        String_ string_1 = new String_(b);
-        System.out.println(string_.subString(0));
+        String s = "";
 
-        System.out.println(string_.indexOf(string_1));
     }
 
 

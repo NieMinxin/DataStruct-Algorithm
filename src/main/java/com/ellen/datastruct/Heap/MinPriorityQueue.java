@@ -1,5 +1,10 @@
 package com.ellen.datastruct.Heap;
 
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Timer;
+import java.util.TimerTask;
+
 public class MinPriorityQueue {
 
     private  int heap[];//数组实现
@@ -90,7 +95,7 @@ public class MinPriorityQueue {
             }
             //只有左子节点
             if(2*k+1>size){
-                minIndex = heap[k*2]<heap[k] ? k*2 : k;
+                minIndex = heap[k*2]<heap[k] ? k*2 : k;// 子节点小于父节点(最小堆)
             }else {
                 //从两个子节点选择一个较小的元素
                 if (this.heap[k] > this.heap[2 * k] || this.heap[k] > this.heap[2 * k + 1]) {
@@ -115,11 +120,12 @@ public class MinPriorityQueue {
         //把堆顶元素删掉,最后一个元素X 和堆顶元素互换
         heap[1] = heap[size];
         heap[size] = min;
-
         this.size--;
         sink();//从堆顶元素开始下沉
         return min;
     }
+
+
 
 
     public static void main(String[] args) {
@@ -129,6 +135,32 @@ public class MinPriorityQueue {
         heap.insert(11);
         heap.insert(7);
         heap.print();
+
+        Calendar c = Calendar.getInstance();
+        c.set(2021,10,19,16,0,0);
+        long endTime = c.getTimeInMillis();
+        long start = new Date().getTime();
+        long Time = (endTime-start)/1000;
+        midTime = Time;
+        timer();
+
+
+
+
+    }
+    public static long midTime;
+
+    public static  void timer(){
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            public void run() {
+                midTime--;
+                long hh = midTime / 60 / 60 % 60;
+                long mm = midTime / 60 % 60;
+                long ss = midTime % 60;
+                System.out.println("还剩" + hh + "小时" + mm + "分钟" + ss + "秒");
+            }
+        }, 0, 1000);
     }
 
 

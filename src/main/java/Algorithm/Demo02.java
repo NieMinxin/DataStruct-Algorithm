@@ -1,6 +1,7 @@
 package Algorithm;
 
 public class Demo02 {
+
     public TreeNode mergeTwoLists(TreeNode l1, TreeNode l2) {
         TreeNode preHead = new TreeNode(-1);
         TreeNode pre = preHead;
@@ -61,7 +62,6 @@ public class Demo02 {
     }
 
     public int[] exchange(int[] nums) {
-
         int i=0,j=nums.length-1;
         while (i<j){
             if(nums[i]%2!=0){
@@ -76,6 +76,14 @@ public class Demo02 {
         }
         return nums;
     }
+
+    public static void main(String[] args) {
+        int i ,j;
+        i=j=0;
+        System.out.println(i);
+        System.out.println(j);
+    }
+
 
 
 

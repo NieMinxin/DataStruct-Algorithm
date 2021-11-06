@@ -1,18 +1,23 @@
 package com.ellen.datastruct.Tree;
 
+import java.util.ArrayList;
+import java.util.Deque;
+import java.util.LinkedList;
+import java.util.List;
+
 public class BinaryTree {
 
 
     private  Node root;//根节点
 
-    BinaryTree(){
+    public BinaryTree(){
         root =null;
     }
 
 
 
 
-    class Node {
+    public class Node {
         public int data;
         //左儿子
         public Node left;
@@ -210,6 +215,86 @@ public class BinaryTree {
                 System.out.println("data:"+node.data+"->");
             }
         }
+
+
+        //根左右
+        public List<Integer> preOrderWithStack(Node node){
+            Deque<Node> stack = new LinkedList<>();
+            List<Integer> list  = new ArrayList<>();
+
+            if(node==null){
+                return list;
+            }
+            while (node!=null || !stack.isEmpty()){
+                while (node!=null){
+                    stack.push(node);
+                    list.add(node.data);
+                    node = node.left;
+                }
+                node = stack.pop();
+                node = node.right;
+            }
+            return list;
+        }
+
+    //左根右
+    public List<Integer> inOrderWithStack(Node node){
+        Deque<Node> stack = new LinkedList<>();
+        List<Integer> list  = new ArrayList<>();
+
+        if(node==null){
+            return list;
+        }
+        while (node!=null || !stack.isEmpty()){
+            while (node!=null){
+                stack.push(node);
+
+                node = node.left;
+            }
+            node = stack.pop();
+            list.add(node.data);
+            node = node.right;
+        }
+        return list;
+    }
+
+    //左右根
+    public List<Integer> postOrderWithStack(Node node){
+
+        List<Integer> list  = new ArrayList<>();
+        if(node==null){
+            return list;
+        }
+        Deque<Node> stack = new LinkedList<>();
+        Node pre = null;
+        while (node!=null || !stack.isEmpty()){
+            while (node!=null){
+                stack.push(node);
+                node = node.left;
+            }
+            node = stack.pop();
+            if(node.right==null || node.right==pre){
+                list.add(node.data);
+                pre= node;
+                node = null;
+            }else {
+                stack.push(node);
+                node = node.right;
+            }
+        }
+        return list;
+    }
+
+
+
+
+
+
+    //统计树中节点个数
+
+    public int countNodes(Node root) {
+        return 0;
+    }
 
 
 
